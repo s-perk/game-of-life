@@ -11,7 +11,6 @@ COLOR_ALIVE_NEXT = (255, 255, 255)
 
 def update(screen, cells, size, with_progress=False):
     updated_cells = np.zeros((cells.shape[0], cells.shape[1]))
-    print('update!')
 
     for row, col in np.ndindex(cells.shape):
         # Calculate number of alive neighbors (check 8 surround cells, includes diagonals)
@@ -57,7 +56,6 @@ def main():
                 pygame.quit()
                 return
             elif event.type == pygame.KEYDOWN:
-                print('key press!', event.key)
                 # Space = pause game
                 if event.key == pygame.K_SPACE:
                     running = not running
@@ -72,7 +70,9 @@ def main():
 
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
-                cells[pos[1] // 10, pos[0] // 10] = 1
+                cells[pos[1] // 10, pos[0] // 10] = not cells[
+                    pos[1] // 10, pos[0] // 10
+                ]
                 update(screen, cells, 10)
                 pygame.display.update()
 
@@ -82,7 +82,7 @@ def main():
             cells = update(screen, cells, 10, with_progress=True)
             pygame.display.update()
 
-        time.sleep(0.001)
+        time.sleep(0.01)
 
 
 if __name__ == '__main__':
